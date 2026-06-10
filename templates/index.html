@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PromTrim — Painel de Controle de Intenções</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- Marked (Markdown Parser) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <!-- PrismJS (Syntax Highlighting) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="bg-glow"></div>
+    
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i data-lucide="zap"></i>
+                </div>
+                <div>
+                    <h1>PromTrim</h1>
+                    <p class="subtitle">Painel de Controle de Intenções</p>
+                </div>
+            </div>
+            <div class="system-status">
+                <span class="status-indicator online"></span>
+                <span>Motor de IA Ativo</span>
+            </div>
+        </header>
+
+        <main class="app-content">
+            <!-- Form Card -->
+            <section class="card control-panel">
+                <div class="card-header">
+                    <i data-lucide="sliders"></i>
+                    <h2>Configurar Intenção de Resposta</h2>
+                </div>
+                
+                <form id="intent-form" class="form-body">
+                    <!-- Textarea Area -->
+                    <div class="form-group">
+                        <label for="ideia">
+                            <span>Ideia Principal / Problema</span>
+                            <span class="tooltip" title="Escreva sua ideia, código ou pergunta com o maior detalhamento possível.">
+                                <i data-lucide="help-circle"></i>
+                            </span>
+                        </label>
+                        <div class="textarea-wrapper">
+                            <textarea 
+                                id="ideia" 
+                                name="ideia" 
+                                placeholder="Ex: Como fazer paginação de dados eficiente no PostgreSQL usando Node.js..." 
+                                required
+                            ></textarea>
+                            <div class="char-count">0 caracteres</div>
+                        </div>
+                    </div>
+
+                    <!-- Radio Intent Selection -->
+                    <div class="form-group">
+                        <label>Formato da Resposta (Filtro de Intenção)</label>
+                        <div class="intent-grid">
+                            <label class="intent-option">
+                                <input type="radio" name="tipo" value="apenas_codigo" checked>
+                                <span class="option-card">
+                                    <span class="option-icon"><i data-lucide="code-2"></i></span>
+                                    <span class="option-info">
+                                        <span class="option-title">Código Limpo</span>
+                                        <span class="option-desc">Apenas código pronto p/ produção</span>
+                                    </span>
+                                </span>
+                            </label>
+
+                            <label class="intent-option">
+                                <input type="radio" name="tipo" value="explicacao">
+                                <span class="option-card">
+                                    <span class="option-icon"><i data-lucide="book-open"></i></span>
+                                    <span class="option-info">
+                                        <span class="option-title">Explicação Teórica</span>
+                                        <span class="option-desc">Arquitetura, conceitos e trade-offs</span>
+                                    </span>
+                                </span>
+                            </label>
+
+                            <label class="intent-option">
+                                <input type="radio" name="tipo" value="bibliotecas">
+                                <span class="option-card">
+                                    <span class="option-icon"><i data-lucide="library"></i></span>
+                                    <span class="option-info">
+                                        <span class="option-title">Ferramentas / Libs</span>
+                                        <span class="option-desc">Recomendações e análise crítica</span>
+                                    </span>
+                                </span>
+                            </label>
+
+                            <label class="intent-option">
+                                <input type="radio" name="tipo" value="seguranca">
+                                <span class="option-card">
+                                    <span class="option-icon"><i data-lucide="shield-alert"></i></span>
+                                    <span class="option-info">
+                                        <span class="option-title">Revisão de Segurança</span>
+                                        <span class="option-desc">Análise de riscos e caça a bugs</span>
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Button Action -->
+                    <button type="submit" id="gerar-btn" class="btn btn-primary">
+                        <span class="btn-text">Gerar Resposta Lapidada</span>
+                        <span class="btn-icon"><i data-lucide="sparkles"></i></span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Results Column -->
+            <section id="resultado-painel" class="card result-card hidden">
+                <div class="card-header result-header">
+                    <div class="header-title">
+                        <i data-lucide="terminal"></i>
+                        <h2 id="result-title-text">Resposta Lapidada</h2>
+                    </div>
+                    <div class="header-actions">
+                        <button id="copy-btn" class="btn btn-secondary btn-sm" title="Copiar resposta">
+                            <i data-lucide="copy"></i>
+                            <span>Copiar</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Response Output -->
+                <div class="result-body">
+                    <!-- Skeleton Loader (Hidden by default) -->
+                    <div id="result-loader" class="loader-container hidden">
+                        <div class="skeleton-line title"></div>
+                        <div class="skeleton-line sentence-1"></div>
+                        <div class="skeleton-line sentence-2"></div>
+                        <div class="skeleton-block"></div>
+                        <div class="skeleton-line sentence-3"></div>
+                    </div>
+
+                    <!-- Actual content -->
+                    <div id="result-content" class="markdown-content">
+                        <!-- Será injetado dinamicamente -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>PromTrim Engine &copy; 2026. Desenvolvido para Engenharia de Prompts de Alta Performance.</p>
+        </footer>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
