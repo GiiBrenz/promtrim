@@ -40,3 +40,9 @@ promtrim/
     │   └── style.css        # Design System (HSL), dark mode, glassmorphism e skeleton
     └── js/
         └── app.js           # Comunicação AJAX com a API Flask, Marked parser e Prism highlighter
+
+
+```
+Notion: **https://organic-trouble-2b4.notion.site/PromTrim-37b791c078328027848ac69ce9a1ecce**
+
+
