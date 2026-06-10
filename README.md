@@ -2,7 +2,7 @@
 
 O **PromTrim** é um Painel de Controle de Intenções projetado para consumir modelos de IA generativa (Google Gemini) de forma ultra-otimizada. Através de **Engenharia de Prompts Invisível** no back-end, o PromTrim lapida as requisições do usuário antes de enviá-las, garantindo respostas cirúrgicas, latência mínima, economia drástica de tokens e eliminação de alucinações.
 
-![Demonstração do PromTrim](Frontend-ezgif.com-speed.gif)
+<img width="800" height="450" alt="Frontend-ezgif com-speed" src="https://github.com/user-attachments/assets/af7d44a4-a7cc-4142-8e7c-828c4b9fbf69" />
 
 ---
 
